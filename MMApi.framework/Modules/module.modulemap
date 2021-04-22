@@ -1,0 +1,6 @@
+framework module MMApi {
+  umbrella header "MMApi-umbrella.h"
+
+  export *
+  module * { export * }
+}
