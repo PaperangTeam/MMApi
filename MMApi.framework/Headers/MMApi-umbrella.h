@@ -17,7 +17,6 @@
 #import "MMNavigationBar.h"
 #import "MMNaviRightBtn.h"
 #import "MMBLENormalManager+MMCategory.h"
-#import "MMDeviceDelegate+MMCategory.h"
 #import "NSBundle+MMCategory.h"
 #import "NSString+MMCategory.h"
 #import "UIFont+MMCategory.h"
