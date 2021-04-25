@@ -4,3 +4,8 @@ framework module MMApi {
   export *
   module * { export * }
 }
+
+module MMApi.Swift {
+    header "MMApi-Swift.h"
+    requires objc
+}

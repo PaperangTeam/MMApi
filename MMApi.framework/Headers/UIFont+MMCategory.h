@@ -17,6 +17,8 @@ UIKIT_EXTERN CGFloat const MMTitleFontSize;
 /// 标题栏选中tab
 UIKIT_EXTERN CGFloat const MMTitleTabSelectFontSize;
 
+UIKIT_EXTERN CGFloat const MMTitleTabNormalFontSize;
+
 /// 二级信息：正文、行间距20px 
 UIKIT_EXTERN CGFloat const MMContentFontSize;
 
@@ -25,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIFont (MMCategory)
 
 + (UIFont *)mm_regularFontWithFontSize:(CGFloat)fontSize;
++ (UIFont *)mm_mediumFontWithFontSize:(CGFloat)fontSize;
++ (UIFont *)mm_semiboldFontWithFontSize:(CGFloat)fontSize;
 @end
 
 NS_ASSUME_NONNULL_END
