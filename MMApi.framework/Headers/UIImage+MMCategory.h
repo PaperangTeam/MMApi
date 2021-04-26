@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)gradientColorImageFromColors:(NSArray*)colors gradientType:(MMGradientTypeimage)gradientType imgSize:(CGSize)imgSize;
 
 /// 获取 framework 内的图片, name 对应的 image 会做缓存, 所以名字相同的换了图片不生效
-+ (UIImage * __nullable)imageWithBundleNamed:(NSString *)name;
++ (UIImage *)imageWithBundleNamed:(NSString *)name;
 
 /// 给图片绘制居中文字
 - (UIImage *)imageWithCenterText:(NSString *)centerText textColor:(UIColor *)color font:(UIFont *)font insets:(UIEdgeInsets)insets;

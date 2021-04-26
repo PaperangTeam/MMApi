@@ -70,7 +70,6 @@
 @interface MMCommonAlertQueue : NSObject
 
 + (instancetype)queue;
-+ (MMCommonAlertViewController *)currentAlert;
 
 - (void)addAlert:(MMCommonAlertViewController *)alert
        presentVC:(UIViewController *)viewController

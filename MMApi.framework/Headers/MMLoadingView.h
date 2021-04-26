@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MMLoadingView : UIView
 
-@property (nonatomic, assign, class) BOOL isLoading;
-
 + (instancetype)loadingView;
 
 /// 加载 2s
