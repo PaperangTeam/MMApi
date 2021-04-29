@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import <MMBLEManager/MMBLEManager-Swift.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^MMShareMarketingBlock)(void);
+//typedef void(^MMShareSelectedBlock)(NSInteger);
 
 @interface MMShareVC : NSObject
 
@@ -30,6 +32,11 @@ typedef void(^MMShareMarketingBlock)(void);
 /// 打印预览页刷新数据
 /// @param printData 一个渲染需要的 data json 数据结构
 + (void)reloadPrintData:(NSString *)printData;
+
+/// 适配多尺寸设备弹窗
+/// @param model 尺寸数据模型
+/// @param completion 选定成功后的回调
+//+ (void)showSupportSizeAlert:(MMBLENotificationModel *)model selectedCompletion:(MMShareSelectedBlock _Nullable)completion;
 
 
 /// 前往喵宝营销页

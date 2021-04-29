@@ -104,6 +104,16 @@ UIKIT_EXTERN NSNotificationName const MMDidFinishPrintNotification;
  */
 UIKIT_EXTERN NSNotificationName const MMDeviceExceptionStatusNotification;
 
+/**
+ * get device support size
+ */
+UIKIT_EXTERN NSNotificationName const MMGetDeviceSupportSizeNotificationName;
+
+/**
+ * set device support size success, need reload view
+ */
+UIKIT_EXTERN NSNotificationName const MMConnectedDevicePrintPreviewType;
+
 @interface MMSharePrint : NSObject
 
 /**

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MMApi'
-  s.version          = '1.1.13'
+  s.version          = '1.1.14'
   s.summary          = 'A short description of MMApi.'
 
 # This description is used to generate tags and improve search results.
