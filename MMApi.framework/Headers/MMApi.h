@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <MMApi/MMSharePrint.h>
 #import <MMApi/MMShareVC.h>
+#import <MMDeviceKit/MMDeviceKit-Swift.h>
 
 

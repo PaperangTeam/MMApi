@@ -6,7 +6,12 @@
 //  Copyright © 2020 Hoho. All rights reserved.
 //
 
-#import <MMBLEManager/MMBLENormalManager.h>
+//#import <MMBLEManager/MMBLENormalManager.h>
+#import <Foundation/Foundation.h>
+
+@interface MMBLENormalManager : NSObject
+
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 

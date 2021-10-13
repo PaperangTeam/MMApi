@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIViewController *)topViewController;
 
++ (UIViewController * __nullable)topVC;
+
 + (UINavigationController *)topNaviViewController;
 @end
 

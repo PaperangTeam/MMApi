@@ -18,6 +18,25 @@ typedef void(^MMShareMarketingBlock)(void);
 
 @property (nonatomic, copy, class) MMShareMarketingBlock _Nullable marketingBlock;
 
+/// 注册 SDK
+/// @param appId appid
+/// @param appKey appkey
+/// @param secret appSecret
+/// @param success success callback
+/// @param fail fail callback
++ (void)registWithAppID:(long)appId
+                 AppKey:(NSString *)appKey
+              andSecret:(NSString *)secret
+                success:(void (^)(void))success
+                   fail:(void (^)(NSError *error))fail;
+
+/**
+ Get last device’s UUID
+
+ @return last device’s UUID
+ */
++ (NSString *)getLastDeviceMac;
+
 /// 前往设备连接页面
 /// @param naviViewController 一个 navigationcontroller 目的是 push
 /// @param isFromMarketing 是否从营销页进入设备连接页面

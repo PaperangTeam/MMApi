@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MMDeviceNetProvider : NSObject
 
-+ (void)getFirmware;
+//+ (void)getFirmware;
++ (void)needUpdateMCU:(NSString *)updateDescription;
 @end
 
 NS_ASSUME_NONNULL_END

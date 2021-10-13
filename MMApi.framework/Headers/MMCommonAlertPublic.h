@@ -71,7 +71,7 @@ static NSString * const mm_alertXibNameProgress                               = 
  */
 
 /// 加载 nib
-#define MMAlertLoadNib(name) [[[NSBundle mmapiBundle] loadNibNamed:name owner:self options:nil] firstObject]
+#define MMAlertLoadNib(name) [[[NSBundle mmapiAssetBundle] loadNibNamed:name owner:self options:nil] firstObject]
 
 /// string 拼接
 #define MMAlertString(fmt, ...) [NSString stringWithFormat:(fmt), ##__VA_ARGS__]

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+@class MMDevice;
 
 typedef enum : NSUInteger {
     MMDeviceListNotConnect,
@@ -17,13 +18,13 @@ typedef enum : NSUInteger {
     MMDeviceListConnectFail,
 } MMDeviceListConnectStatus;
 
-typedef void(^MMDeviceListModelBlock)(CBPeripheral * _Nonnull peripheral);
+typedef void(^MMDeviceListModelBlock)(MMDevice * _Nonnull device);
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MMDeviceListModel : NSObject
 
-@property (nonatomic, strong) CBPeripheral *peripheral;
+@property (nonatomic, strong) MMDevice *device;
 
 @property (nonatomic, copy) NSString *deviceName;
 
