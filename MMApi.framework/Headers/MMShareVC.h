@@ -37,6 +37,9 @@ typedef void(^MMShareMarketingBlock)(void);
  */
 + (NSString *)getLastDeviceMac;
 
+/// 获取 SDK 授权状态
++ (BOOL)getAuthorizationStatus;
+
 /// 前往设备连接页面
 /// @param naviViewController 一个 navigationcontroller 目的是 push
 /// @param isFromMarketing 是否从营销页进入设备连接页面
