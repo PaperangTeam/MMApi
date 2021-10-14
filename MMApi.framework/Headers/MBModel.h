@@ -11,9 +11,9 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<YYModel/YYModel.h>)
-FOUNDATION_EXPORT double YYModelVersionNumber;
-FOUNDATION_EXPORT const unsigned char YYModelVersionString[];
+#if __has_include(<MBModel/MBModel.h>)
+FOUNDATION_EXPORT double MBModelVersionNumber;
+FOUNDATION_EXPORT const unsigned char MBModelVersionString[];
 #import <MBModel/NSObject+MBModel.h>
 #import <MBModel/MBClassInfo.h>
 #else
