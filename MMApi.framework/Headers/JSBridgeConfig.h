@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)clearAllWKCache:(void(^)(void))completionHandler;
 //+ (void)login;
 + (NSString *)getRenderPrintJS:(NSDictionary * _Nullable)dic;
++ (NSString *)setParamsJS:(NSDictionary *)dic;
 
 @end
 

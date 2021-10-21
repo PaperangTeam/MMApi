@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFlag:(NSString *)flag renderBlock:(void (^)(NSString *flag))renderBlock;
 
-- (void)reloadPrintData:(NSString *)printData;
+- (void)reloadPrintData:(NSString *)printData paramString:(NSString * _Nullable)paramString;
 @end
 
 NS_ASSUME_NONNULL_END

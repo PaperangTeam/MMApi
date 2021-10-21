@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleEventWithMessageName:(WKScriptMessage *)message NS_REQUIRES_SUPER;
 
 /// 客户端调用前端
-- (void)evalueteJS:(NSString *)jsScript;
+- (void)evalueteJS:(NSString *)jsScript completionHandler:(void (^ _Nullable)(_Nullable id, NSError * _Nullable error))completionHandler;
 
 /// 页面是否加载完
 @property (nonatomic, assign) BOOL isWebLoadFinish;

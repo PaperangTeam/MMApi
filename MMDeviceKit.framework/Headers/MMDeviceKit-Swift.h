@@ -210,6 +210,13 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+typedef SWIFT_ENUM_NAMED(uint8_t, BindStatus, "BindStatus", closed) {
+  BindStatusFailure = 0x00,
+  BindStatusSuccess = 1,
+  BindStatusNeedBind = 2,
+  BindStatusNone = 3,
+};
+
 typedef SWIFT_ENUM_NAMED(NSInteger, BluetoothState, "BluetoothState", closed) {
   BluetoothStateUnknown = 0,
   BluetoothStateResetting = 1,
@@ -371,6 +378,7 @@ SWIFT_CLASS("_TtC11MMDeviceKit13MMClockDevice")
 
 SWIFT_CLASS("_TtC11MMDeviceKit13MMCloudDevice")
 @interface MMCloudDevice : MMDevice
+@property (nonatomic, copy) NSString * _Nullable openID;
 @property (nonatomic, copy) NSString * _Nullable ram;
 @property (nonatomic, copy) NSString * _Nullable rom;
 @property (nonatomic, copy) NSString * _Nullable bindInfo;
@@ -495,6 +503,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)regist:(NSString * _Nullable)appKey :(NSString * _Nullable)appSecret :(long)appID :(void (^ _Nullable)(void))success :(void (^ _Nullable)(NSInteger, NSString * _Nullable))fail;
 /// 注册 MMDeviceKit , 不开启蓝牙扫描
 + (void)registWithoutScan:(NSString * _Nullable)appKey :(NSString * _Nullable)appSecret :(long)appID :(void (^ _Nullable)(void))success :(void (^ _Nullable)(NSInteger, NSString * _Nullable))fail;
++ (void)setUIDClosure:(NSString * _Nonnull (^ _Nullable)(void))complete;
 + (NSString * _Nonnull)getSdkVersion SWIFT_WARN_UNUSED_RESULT;
 /// SDK是否已经认证
 + (BOOL)isAuthorized SWIFT_WARN_UNUSED_RESULT;
@@ -506,6 +515,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (uint8_t)getDensity:(MMDevice * _Nullable)device SWIFT_WARN_UNUSED_RESULT;
 + (void)getAvailableDevices:(void (^ _Nonnull)(NSArray<MMDevice *> * _Nonnull))devicesHandle;
 + (void)startGattScan:(void (^ _Nonnull)(NSArray<MMDevice *> * _Nonnull))devicesHandle;
++ (void)stopGattScan;
 + (void)stopFetchDevice;
 + (NSArray<MMDevice *> * _Nonnull)getUsingDevices SWIFT_WARN_UNUSED_RESULT;
 + (void)useDevice:(MMDevice * _Nullable)device;
@@ -524,12 +534,46 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)setDensity:(MMDevice * _Nullable)device :(uint8_t)density;
 + (void)setSense:(MMDevice * _Nullable)device :(uint32_t)sense;
 + (void)getBattery:(MMDevice * _Nullable)device :(void (^ _Nullable)(MMDevice * _Nullable, uint8_t))complete;
-+ (void)getWifiList:(MMDevice * _Nullable)device;
-+ (void)checkPortsStatus:(MMDevice * _Nullable)device;
-+ (void)configWifiWithSsid:(NSString * _Nullable)ssid password:(NSString * _Nullable)password device:(MMDevice * _Nullable)device;
-+ (void)connectedServer:(MMDevice * _Nullable)device;
-+ (void)closeBluetooth:(MMDevice * _Nullable)device;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface MMDeviceApi (SWIFT_EXTENSION(MMDeviceKit))
++ (void)cloudAuthTokenWithCompletion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSString * _Nullable))completion;
++ (void)getWifiList:(MMDevice * _Nonnull)device;
++ (void)checkPortsStatus:(MMDevice * _Nonnull)device;
++ (void)configWifiWithSsid:(NSString * _Nonnull)ssid password:(NSString * _Nonnull)password device:(MMDevice * _Nonnull)device;
++ (void)connectedServer:(MMDevice * _Nonnull)device;
++ (void)closeBluetooth:(MMDevice * _Nonnull)device;
++ (void)getBindCloudListWithCompletion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSArray<MMCloudDevice *> * _Nullable))completion;
++ (void)cloudUpgrade:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudCheckUpgradeWithOpenId:(NSString * _Nullable)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSDictionary<NSString *, id> * _Nullable))completion;
++ (void)cloudDetail:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, MMCloudDevice * _Nullable))completion;
++ (void)cloudUpdate:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)deviceAuth:(NSString * _Nonnull)snCode completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudBind:(NSString * _Nonnull)snCode completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSString * _Nonnull))completion;
++ (void)cloudUnbind:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrint:(MMCloudDevice * _Nonnull)device taskName:(NSString * _Nonnull)taskName fileName:(NSString * _Nullable)fileName fileUrl:(NSString * _Nullable)fileUrl printerName:(NSString * _Nullable)printerName pageRange:(NSArray<NSNumber *> * _Nonnull)pageRange num:(NSInteger)num completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintStartWithOpenId:(NSString * _Nonnull)openId taskId:(NSString * _Nonnull)taskId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintDeleteWithOpenId:(NSString * _Nonnull)openId taskIds:(NSArray<NSString *> * _Nonnull)taskIds completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintPauseWithOpenId:(NSString * _Nonnull)openId taskId:(NSString * _Nonnull)taskId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudRePrintWithOpenId:(NSString * _Nonnull)openId taskIds:(NSArray<NSString *> * _Nonnull)taskIds completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
+/// 获取设备绑定用户列表
+/// \param device UDPDevice
+///
+/// \param completion 数据列表
+///
+///
+/// returns:
+/// UID list
++ (void)getCloudUserListWithDevice:(MMDevice * _Nonnull)device completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSArray<NSDictionary<NSString *, id> *> * _Nullable))completion;
+/// 将用户踢出udp设备列表
+/// \param device UDPDevice
+///
+///
+/// returns:
+/// success
++ (void)cloudUnbindUserWithDevice:(MMDevice * _Nonnull)device UID:(NSString * _Nonnull)UID appID:(NSString * _Nonnull)appID completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
 @end
 
 
@@ -572,8 +616,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)setTomatoSoundOpen:(MMDevice * _Nullable)device isOpen:(BOOL)isOpen;
 /// 设置闹钟延时提醒时间,单位为分钟
 + (void)setAlarmDelayTimeWithMinutes:(MMDevice * _Nullable)device minutes:(NSInteger)minutes;
-+ (void)bindDevice:(MMDevice * _Nullable)device :(NSString * _Nonnull)key;
-+ (void)unbindDevice:(MMDevice * _Nullable)device :(void (^ _Nonnull)(BOOL))complete;
++ (void)getBindStatusWithDevice:(MMDevice * _Nullable)device key:(NSString * _Nonnull)key complete:(void (^ _Nonnull)(enum BindStatus))complete;
++ (void)bindDevice:(MMDevice * _Nullable)device :(NSString * _Nonnull)key :(void (^ _Nonnull)(BOOL, NSData * _Nonnull))complete;
++ (void)unbindDevice:(MMDevice * _Nullable)device :(void (^ _Nonnull)(BOOL, NSData * _Nonnull))complete;
 /// 告知同步状态
 + (void)noticeSyncTaskStatus:(MMGattDevice * _Nullable)device start:(BOOL)start;
 + (void)test:(MMGattDevice * _Nullable)device;
@@ -1149,6 +1194,13 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+typedef SWIFT_ENUM_NAMED(uint8_t, BindStatus, "BindStatus", closed) {
+  BindStatusFailure = 0x00,
+  BindStatusSuccess = 1,
+  BindStatusNeedBind = 2,
+  BindStatusNone = 3,
+};
+
 typedef SWIFT_ENUM_NAMED(NSInteger, BluetoothState, "BluetoothState", closed) {
   BluetoothStateUnknown = 0,
   BluetoothStateResetting = 1,
@@ -1310,6 +1362,7 @@ SWIFT_CLASS("_TtC11MMDeviceKit13MMClockDevice")
 
 SWIFT_CLASS("_TtC11MMDeviceKit13MMCloudDevice")
 @interface MMCloudDevice : MMDevice
+@property (nonatomic, copy) NSString * _Nullable openID;
 @property (nonatomic, copy) NSString * _Nullable ram;
 @property (nonatomic, copy) NSString * _Nullable rom;
 @property (nonatomic, copy) NSString * _Nullable bindInfo;
@@ -1434,6 +1487,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)regist:(NSString * _Nullable)appKey :(NSString * _Nullable)appSecret :(long)appID :(void (^ _Nullable)(void))success :(void (^ _Nullable)(NSInteger, NSString * _Nullable))fail;
 /// 注册 MMDeviceKit , 不开启蓝牙扫描
 + (void)registWithoutScan:(NSString * _Nullable)appKey :(NSString * _Nullable)appSecret :(long)appID :(void (^ _Nullable)(void))success :(void (^ _Nullable)(NSInteger, NSString * _Nullable))fail;
++ (void)setUIDClosure:(NSString * _Nonnull (^ _Nullable)(void))complete;
 + (NSString * _Nonnull)getSdkVersion SWIFT_WARN_UNUSED_RESULT;
 /// SDK是否已经认证
 + (BOOL)isAuthorized SWIFT_WARN_UNUSED_RESULT;
@@ -1445,6 +1499,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (uint8_t)getDensity:(MMDevice * _Nullable)device SWIFT_WARN_UNUSED_RESULT;
 + (void)getAvailableDevices:(void (^ _Nonnull)(NSArray<MMDevice *> * _Nonnull))devicesHandle;
 + (void)startGattScan:(void (^ _Nonnull)(NSArray<MMDevice *> * _Nonnull))devicesHandle;
++ (void)stopGattScan;
 + (void)stopFetchDevice;
 + (NSArray<MMDevice *> * _Nonnull)getUsingDevices SWIFT_WARN_UNUSED_RESULT;
 + (void)useDevice:(MMDevice * _Nullable)device;
@@ -1463,12 +1518,46 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)setDensity:(MMDevice * _Nullable)device :(uint8_t)density;
 + (void)setSense:(MMDevice * _Nullable)device :(uint32_t)sense;
 + (void)getBattery:(MMDevice * _Nullable)device :(void (^ _Nullable)(MMDevice * _Nullable, uint8_t))complete;
-+ (void)getWifiList:(MMDevice * _Nullable)device;
-+ (void)checkPortsStatus:(MMDevice * _Nullable)device;
-+ (void)configWifiWithSsid:(NSString * _Nullable)ssid password:(NSString * _Nullable)password device:(MMDevice * _Nullable)device;
-+ (void)connectedServer:(MMDevice * _Nullable)device;
-+ (void)closeBluetooth:(MMDevice * _Nullable)device;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface MMDeviceApi (SWIFT_EXTENSION(MMDeviceKit))
++ (void)cloudAuthTokenWithCompletion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSString * _Nullable))completion;
++ (void)getWifiList:(MMDevice * _Nonnull)device;
++ (void)checkPortsStatus:(MMDevice * _Nonnull)device;
++ (void)configWifiWithSsid:(NSString * _Nonnull)ssid password:(NSString * _Nonnull)password device:(MMDevice * _Nonnull)device;
++ (void)connectedServer:(MMDevice * _Nonnull)device;
++ (void)closeBluetooth:(MMDevice * _Nonnull)device;
++ (void)getBindCloudListWithCompletion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSArray<MMCloudDevice *> * _Nullable))completion;
++ (void)cloudUpgrade:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudCheckUpgradeWithOpenId:(NSString * _Nullable)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSDictionary<NSString *, id> * _Nullable))completion;
++ (void)cloudDetail:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, MMCloudDevice * _Nullable))completion;
++ (void)cloudUpdate:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)deviceAuth:(NSString * _Nonnull)snCode completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudBind:(NSString * _Nonnull)snCode completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSString * _Nonnull))completion;
++ (void)cloudUnbind:(NSString * _Nonnull)openId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrint:(MMCloudDevice * _Nonnull)device taskName:(NSString * _Nonnull)taskName fileName:(NSString * _Nullable)fileName fileUrl:(NSString * _Nullable)fileUrl printerName:(NSString * _Nullable)printerName pageRange:(NSArray<NSNumber *> * _Nonnull)pageRange num:(NSInteger)num completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintStartWithOpenId:(NSString * _Nonnull)openId taskId:(NSString * _Nonnull)taskId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintDeleteWithOpenId:(NSString * _Nonnull)openId taskIds:(NSArray<NSString *> * _Nonnull)taskIds completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudPrintPauseWithOpenId:(NSString * _Nonnull)openId taskId:(NSString * _Nonnull)taskId completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
++ (void)cloudRePrintWithOpenId:(NSString * _Nonnull)openId taskIds:(NSArray<NSString *> * _Nonnull)taskIds completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
+/// 获取设备绑定用户列表
+/// \param device UDPDevice
+///
+/// \param completion 数据列表
+///
+///
+/// returns:
+/// UID list
++ (void)getCloudUserListWithDevice:(MMDevice * _Nonnull)device completion:(void (^ _Nullable)(BOOL, NSString * _Nullable, NSArray<NSDictionary<NSString *, id> *> * _Nullable))completion;
+/// 将用户踢出udp设备列表
+/// \param device UDPDevice
+///
+///
+/// returns:
+/// success
++ (void)cloudUnbindUserWithDevice:(MMDevice * _Nonnull)device UID:(NSString * _Nonnull)UID appID:(NSString * _Nonnull)appID completion:(void (^ _Nullable)(BOOL, NSString * _Nullable))completion;
 @end
 
 
@@ -1511,8 +1600,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL crashUpload;)
 + (void)setTomatoSoundOpen:(MMDevice * _Nullable)device isOpen:(BOOL)isOpen;
 /// 设置闹钟延时提醒时间,单位为分钟
 + (void)setAlarmDelayTimeWithMinutes:(MMDevice * _Nullable)device minutes:(NSInteger)minutes;
-+ (void)bindDevice:(MMDevice * _Nullable)device :(NSString * _Nonnull)key;
-+ (void)unbindDevice:(MMDevice * _Nullable)device :(void (^ _Nonnull)(BOOL))complete;
++ (void)getBindStatusWithDevice:(MMDevice * _Nullable)device key:(NSString * _Nonnull)key complete:(void (^ _Nonnull)(enum BindStatus))complete;
++ (void)bindDevice:(MMDevice * _Nullable)device :(NSString * _Nonnull)key :(void (^ _Nonnull)(BOOL, NSData * _Nonnull))complete;
++ (void)unbindDevice:(MMDevice * _Nullable)device :(void (^ _Nonnull)(BOOL, NSData * _Nonnull))complete;
 /// 告知同步状态
 + (void)noticeSyncTaskStatus:(MMGattDevice * _Nullable)device start:(BOOL)start;
 + (void)test:(MMGattDevice * _Nullable)device;

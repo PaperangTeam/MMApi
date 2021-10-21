@@ -53,7 +53,8 @@ typedef void(^MMShareMarketingBlock)(void);
 
 /// 打印预览页刷新数据
 /// @param printData 一个渲染需要的 data json 数据结构
-+ (void)reloadPrintData:(NSString *)printData;
+/// @param paramString  额外的参数, 主端和 sdk 前端的一些传参, 例如: 试卷的两种排版
++ (void)reloadPrintData:(NSString *)printData paramString:(NSString * _Nullable)paramString;
 
 /// 适配多尺寸设备弹窗
 /// @param model 尺寸数据模型
