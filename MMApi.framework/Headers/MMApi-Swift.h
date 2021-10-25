@@ -489,6 +489,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) enum DeviceNeedType needType;)
 /// 打印是否可用
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL canPrint;)
 + (BOOL)canPrint SWIFT_WARN_UNUSED_RESULT;
++ (void)setDensity:(uint8_t)density;
 + (void)go2PrintImageOCWithFetchData:(SWIFT_NOESCAPE UIImage * _Nullable (^ _Nonnull)(BOOL))fetchData;
 /// 打印图片（oc调用）,printCount若为0，则判断蓝牙类的printCount
 + (void)printImageWithImages:(NSArray<UIImage *> * _Nullable)images name:(NSString * _Nonnull)name printCount:(NSInteger)printCount isMono:(BOOL)isMono isLabel:(BOOL)isLabel completion:(void (^ _Nullable)(BOOL))completion;
@@ -1024,6 +1025,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) enum DeviceNeedType needType;)
 /// 打印是否可用
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL canPrint;)
 + (BOOL)canPrint SWIFT_WARN_UNUSED_RESULT;
++ (void)setDensity:(uint8_t)density;
 + (void)go2PrintImageOCWithFetchData:(SWIFT_NOESCAPE UIImage * _Nullable (^ _Nonnull)(BOOL))fetchData;
 /// 打印图片（oc调用）,printCount若为0，则判断蓝牙类的printCount
 + (void)printImageWithImages:(NSArray<UIImage *> * _Nullable)images name:(NSString * _Nonnull)name printCount:(NSInteger)printCount isMono:(BOOL)isMono isLabel:(BOOL)isLabel completion:(void (^ _Nullable)(BOOL))completion;
