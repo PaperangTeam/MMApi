@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 //#import <MMBLEManager/MMBLEManager-Swift.h>
 
+/// 连接成功通知
+UIKIT_EXTERN NSString * const _Nonnull MMDeviceInfoDidReceivedNotification;
+/// 失败或者断开连接通知
+UIKIT_EXTERN NSString * const _Nonnull MMDidFailToUseDeviceNotificationOC;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^MMShareMarketingBlock)(void);
